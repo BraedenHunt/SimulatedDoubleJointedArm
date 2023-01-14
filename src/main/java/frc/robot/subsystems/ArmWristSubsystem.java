@@ -86,7 +86,7 @@ public class ArmWristSubsystem extends SubsystemBase {
 
     enableBrake();
   }
-
+  
   @Override
   public void periodic() {
     double armPidVoltage = m_armPidController.calculate(m_armEncoder.getDistance());

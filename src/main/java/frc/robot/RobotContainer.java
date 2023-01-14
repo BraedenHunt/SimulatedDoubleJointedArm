@@ -9,6 +9,7 @@ import frc.robot.commands.Autos;
 import frc.robot.commands.ExampleCommand;
 import frc.robot.subsystems.ArmWristSubsystem;
 import frc.robot.subsystems.ExampleSubsystem;
+import frc.robot.subsystems.IntakeSubsystem;
 import edu.wpi.first.util.sendable.Sendable;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -26,7 +27,7 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   private final ArmWristSubsystem m_armWristSubsystem = new ArmWristSubsystem(true);
-
+  private final IntakeSubsystem m_intakeSubsystem = new IntakeSubsystem();
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
@@ -58,6 +59,8 @@ public class RobotContainer {
   }
 
   public void simulationInit() {
+
+    System.out.println("Working Directory = " + System.getProperty("user.dir"));
     m_armWristSubsystem.useBrakeAssist(false);
     m_armWristSubsystem.simulationInit();
 
