@@ -29,6 +29,7 @@ import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.ArmWristConstants;
 import frc.robot.Constants.CanIds;
+import frc.robot.Constants.RobotSizeConstants;
 import frc.robot.WPILibExtensions.ExtendedSingleJointSimulation;
 
 public class ArmWristSubsystem extends SubsystemBase {
@@ -183,7 +184,7 @@ public class ArmWristSubsystem extends SubsystemBase {
     m_armSim = new ExtendedSingleJointSimulation(
       armGearbox,
       ArmWristConstants.kArmGearboxReduction,
-      SingleJointedArmSim.estimateMOI(ArmWristConstants.kArmLength, ArmWristConstants.kArmMass),
+      ArmWristConstants.kArmMoi,
       ArmWristConstants.kArmLength,
       Units.degreesToRadians(ArmWristConstants.kArmMinAngle),
       Units.degreesToRadians(ArmWristConstants.kArmMaxAngle),
@@ -208,16 +209,20 @@ public class ArmWristSubsystem extends SubsystemBase {
       m_armEncoderSim = new EncoderSim(m_armEncoder);
       m_wristEncoderSim = new EncoderSim(m_wristEncoder);
 
-      Mechanism2d m_mech2d = new Mechanism2d(120, 120);
-      MechanismRoot2d m_armPivot = m_mech2d.getRoot("ArmPivot", 60, 15);
-      MechanismLigament2d m_armTower = m_armPivot.append(new MechanismLigament2d("ArmTower", 15, -90));
+      // Mechanisms
+      // Locations are in inches with y=0 is the ground and x=100 as the start of the robot frame.
+
+      // Arm Mechanism
+      Mechanism2d m_mech2d = new Mechanism2d(200, 78);
+      MechanismRoot2d m_armPivot = m_mech2d.getRoot("ArmPivot", 102.125, 5.7);
+      MechanismLigament2d m_armTower = m_armPivot.append(new MechanismLigament2d("ArmTower", 5.7, -90, 5, new Color8Bit(Color.kDarkGray)));
       m_armMechanism = m_armPivot.append(
         new MechanismLigament2d(
             "Arm",
             Units.metersToInches(ArmWristConstants.kArmLength),
             Units.radiansToDegrees(m_armSim.getAngleRads()),
             6,
-            new Color8Bit(Color.kYellow)));
+            new Color8Bit(Color.kGreen)));
 
       m_wristMechanism = m_armMechanism.append(
                 new MechanismLigament2d(
@@ -225,8 +230,34 @@ public class ArmWristSubsystem extends SubsystemBase {
                     Units.metersToInches(ArmWristConstants.kWristLength),
                     Units.radiansToDegrees(m_wristSim.getAngleRads()),
                     6,
-                    new Color8Bit(Color.kRed)));
+                    new Color8Bit(Color.kBlue)));
 
+      // Robot Frame
+      MechanismRoot2d m_robotFrameBumpersRoot = m_mech2d.getRoot("FrameRoot", 100 - 3.5, 3.75);
+      MechanismLigament2d m_robotFrameBumpersLine = m_robotFrameBumpersRoot.append(new MechanismLigament2d("Frame", Units.metersToInches(RobotSizeConstants.kRobotLength) + 3.5*2, 0, 30, new Color8Bit(Color.kRed)));
+
+      // Hybrid Node
+      MechanismRoot2d m_hybridNodeRoot = m_mech2d.getRoot("HybridNodeRoot", 100-3.5, 2.5);
+      MechanismLigament2d m_hybridNode = m_hybridNodeRoot.append(new MechanismLigament2d("HybridNode", 48 + 6.25, 180, 20, new Color8Bit(Color.kDarkGray)));
+      MechanismRoot2d m_hybridNodeWallRoot = m_mech2d.getRoot("HybridNodeWallRoot", 100-3.5-14.25, 0); 
+      MechanismLigament2d m_hybridNodeWall = m_hybridNodeWallRoot.append(new MechanismLigament2d("HybridNodeWall", 23.5, 90, 5, new Color8Bit(Color.kWhite)));
+
+
+      // Cone Nodes
+      MechanismRoot2d m_coneMidRoot = m_mech2d.getRoot("ConeMidNodeRoot", 100-3.5-22.75, 0);
+      MechanismLigament2d m_coneMidNode = m_coneMidRoot.append(new MechanismLigament2d("ConeMidNode", 34, 90, 1.25, new Color8Bit(Color.kYellow)));
+      MechanismRoot2d m_coneHighRoot = m_mech2d.getRoot("ConeHighNodeRoot", 100-3.5-39.75, 0);
+      MechanismLigament2d m_coneHighNode = m_coneHighRoot.append(new MechanismLigament2d("ConeHighNode", 46, 90, 1.25, new Color8Bit(Color.kYellow)));
+      MechanismRoot2d m_coneRampRoot = m_mech2d.getRoot("ConeRampRoot", 100-3.5-16, 0);
+      MechanismLigament2d m_coneRamp = m_coneRampRoot.append(new MechanismLigament2d("ConeRamp", 39.750, 145, 1.25, new Color8Bit(Color.kYellow)));
+
+      // Cube Nodes
+      MechanismRoot2d m_cubeMidRoot = m_mech2d.getRoot("CubeMidNodeRoot", 100-3.5-31.625, 20.5);
+      MechanismLigament2d m_cubeMidNode = m_cubeMidRoot.append(new MechanismLigament2d("CubeMidNode", 17, 0, 5, new Color8Bit(Color.kWhite)));
+      MechanismLigament2d m_cubeMidNodeWall = m_cubeMidRoot.append(new MechanismLigament2d("CubeMidNodeWall", 15, 90, 5, new Color8Bit(Color.kWhite)));
+      MechanismRoot2d m_cubeHighRoot = m_mech2d.getRoot("CubeHighNodeRoot", 100-3.5-48.625, 32.5);
+      MechanismLigament2d m_cubeHighNode = m_cubeHighRoot.append(new MechanismLigament2d("CubeMidNode", 17, 0, 5, new Color8Bit(Color.kWhite)));
+      MechanismLigament2d m_cubeHighNodeWall = m_cubeHighRoot.append(new MechanismLigament2d("CubeHighNodeWall", 6, 145, 5, new Color8Bit(Color.kWhite)));
       SmartDashboard.putData("Arm Sim", m_mech2d);
   }
 
@@ -237,7 +268,10 @@ public class ArmWristSubsystem extends SubsystemBase {
     m_armSim.setInput(Math.max(Math.min(m_armMotor.getAppliedOutput(), RobotController.getBatteryVoltage()), -RobotController.getBatteryVoltage()));
     m_wristSim.setInput(Math.max(Math.min(m_wristMotor.getAppliedOutput(), RobotController.getBatteryVoltage()), -RobotController.getBatteryVoltage()));
     // Next, we update it. The standard loop time is 20ms.
-    m_armSim.update(0.020);
+    
+    if (!brakeEnabled) {
+      m_armSim.update(0.020);
+    }
     m_wristSim.update(0.020);
 
 

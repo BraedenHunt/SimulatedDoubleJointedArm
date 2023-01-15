@@ -25,6 +25,10 @@ public final class Constants {
 
   }
 
+  public static class RobotSizeConstants {
+    public static final double kRobotLength = Units.inchesToMeters(28);
+  }
+
   public static class ArmWristConstants {
     /* ---------------------------------------------------------------------------- 
       PID Constants */
@@ -59,13 +63,13 @@ public final class Constants {
       Physical Constants */    
     public static final double kArmMoi = 10; // kg * m^2
     public static final double kArmGearboxReduction = 80; // greater than 1 is a speed reduction
-    public static final double kArmLength = Units.inchesToMeters(50); // meters
+    public static final double kArmLength = Units.inchesToMeters(52); // meters
     public static final double kArmMass = 10; // kg
 
-    public static final double kWristMoi = .25; // kg * m^2
+    public static final double kWristMoi = .5513; // kg * m^2
     public static final double kWristGearboxReduction = 48; // greater than 1 is a speed reduction
-    public static final double kWristLength = Units.inchesToMeters(15); // meters
-    public static final double kWristMass = 2.5; // kg
+    public static final double kWristLength = Units.inchesToMeters(10); // meters
+    public static final double kWristMass =  5.0; // kg
 
     public static final double kArmEncoderDistPerPulse = 360.0 / 4096;
     public static final double kWristEncoderDistPerPulse = 360.0 / 4096;
