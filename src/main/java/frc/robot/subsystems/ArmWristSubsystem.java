@@ -259,7 +259,12 @@ public class ArmWristSubsystem extends SubsystemBase {
       MechanismLigament2d m_cubeHighNode = m_cubeHighRoot.append(new MechanismLigament2d("CubeMidNode", 17, 0, 5, new Color8Bit(Color.kWhite)));
       MechanismLigament2d m_cubeHighNodeWall = m_cubeHighRoot.append(new MechanismLigament2d("CubeHighNodeWall", 6, 145, 5, new Color8Bit(Color.kWhite)));
       SmartDashboard.putData("Arm Sim", m_mech2d);
-  }
+
+      // Double Substation
+      MechanismRoot2d m_doubleSubstationRoot = m_mech2d.getRoot("DoubleSubstationRoot", 100+Units.metersToInches(RobotSizeConstants.kRobotLength) + 3.5, 37.375);
+      MechanismLigament2d m_doubleSubstationWall = m_doubleSubstationRoot.append(new MechanismLigament2d("DoubleSubstationWall", 37.375, -90, 5, new Color8Bit(Color.kWhite)));
+      MechanismLigament2d m_doubleSubstationShelf = m_doubleSubstationRoot.append(new MechanismLigament2d("DoubleSubstationShelf", 13, 0, 5, new Color8Bit(Color.kWhite)));
+    }
 
   @Override
   public void simulationPeriodic() {
