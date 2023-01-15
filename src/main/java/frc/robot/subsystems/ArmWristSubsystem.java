@@ -29,6 +29,7 @@ import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.ArmWristConstants;
 import frc.robot.Constants.CanIds;
+import frc.robot.WPILibExtensions.ExtendedSingleJointSimulation;
 
 public class ArmWristSubsystem extends SubsystemBase {
 
@@ -111,7 +112,7 @@ public class ArmWristSubsystem extends SubsystemBase {
   }
 
   public double calculateWristFeedForwardVoltage() {
-    return 0; // TODO: Calculate using setpoint angle of arm and MoI and setpoint angle of wrist
+    return 2 * Math.cos(Units.degreesToRadians(m_armEncoder.getDistance() + m_wristEncoder.getDistance())); // TODO: Calculate using setpoint angle of arm and MoI and setpoint angle of wrist
   }
 
   public void useBrakeAssist(boolean useBrake) {
@@ -166,8 +167,8 @@ public class ArmWristSubsystem extends SubsystemBase {
   }
   
   /* ---------------------- Simulation Code ---------------------- */
-  private SingleJointedArmSim m_armSim;
-  private SingleJointedArmSim m_wristSim;
+  private ExtendedSingleJointSimulation m_armSim;
+  private ExtendedSingleJointSimulation m_wristSim;
 
   private EncoderSim m_armEncoderSim;
   private EncoderSim m_wristEncoderSim;
@@ -179,7 +180,7 @@ public class ArmWristSubsystem extends SubsystemBase {
     var armGearbox = DCMotor.getNEO(6);
     var wristGearbox = DCMotor.getNeo550(1);
 
-    m_armSim = new SingleJointedArmSim(
+    m_armSim = new ExtendedSingleJointSimulation(
       armGearbox,
       ArmWristConstants.kArmGearboxReduction,
       SingleJointedArmSim.estimateMOI(ArmWristConstants.kArmLength, ArmWristConstants.kArmMass),
@@ -187,10 +188,11 @@ public class ArmWristSubsystem extends SubsystemBase {
       Units.degreesToRadians(ArmWristConstants.kArmMinAngle),
       Units.degreesToRadians(ArmWristConstants.kArmMaxAngle),
       ArmWristConstants.kArmMass,
-      true,
-      VecBuilder.fill(ArmWristConstants.kArmEncoderDistPerPulse/50) // Add noise with a std-dev of 1 tick
+      () -> this.brakeEnabled,
+      () -> 0,
+      VecBuilder.fill(ArmWristConstants.kArmEncoderDistPerPulse/100) // Add noise with a std-dev of 1 tick
       );
-    m_wristSim = new SingleJointedArmSim(
+    m_wristSim = new ExtendedSingleJointSimulation(
       wristGearbox,
       ArmWristConstants.kWristGearboxReduction,
       SingleJointedArmSim.estimateMOI(ArmWristConstants.kWristLength, ArmWristConstants.kWristMass),
@@ -198,8 +200,9 @@ public class ArmWristSubsystem extends SubsystemBase {
       Units.degreesToRadians(ArmWristConstants.kWristMinAngle),
       Units.degreesToRadians(ArmWristConstants.kWristMaxAngle),
       ArmWristConstants.kWristMass,
-      false,
-      VecBuilder.fill(ArmWristConstants.kArmEncoderDistPerPulse/50) // Add noise with a std-dev of 1 tick
+      () -> true,
+      () -> m_armSim.getAngleRads(),
+      VecBuilder.fill(ArmWristConstants.kWristEncoderDistPerPulse/100) // Add noise with a std-dev of 1 tick
         );
 
       m_armEncoderSim = new EncoderSim(m_armEncoder);

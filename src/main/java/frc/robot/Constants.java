@@ -32,13 +32,13 @@ public final class Constants {
     public static final double kArmKi = 0;
     public static final double kArmKd = 0;
     public static final double kArmPositionTolerance = 1;
-    public static final double kArmVelocityTolerance = 1;
+    public static final double kArmVelocityTolerance = 5;
 
-    public static final double kWristKp = 0.5;
+    public static final double kWristKp = 0.75;
     public static final double kWristKi = 0;
     public static final double kWristKd = 0;
     public static final double kWristPositionTolerance = 1;
-    public static final double kWristVelocityTolerance = 1;
+    public static final double kWristVelocityTolerance = 5;
 
     /* ---------------------------------------------------------------------------- 
       Constraint Constants */

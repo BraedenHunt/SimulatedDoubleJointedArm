@@ -61,7 +61,7 @@ public class RobotContainer {
   public void simulationInit() {
 
     System.out.println("Working Directory = " + System.getProperty("user.dir"));
-    m_armWristSubsystem.useBrakeAssist(false);
+    m_armWristSubsystem.useBrakeAssist(true);
     m_armWristSubsystem.simulationInit();
 
     SmartDashboard.putData("Intake Position", (Sendable) m_armWristSubsystem.getGotoCommand(0, -180));
