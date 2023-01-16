@@ -4,11 +4,15 @@
 
 package frc.robot;
 
-import frc.robot.Constants.OperatorConstants;
+import frc.robot.commands.AdaptiveDriveCommand;
 import frc.robot.commands.Autos;
+import frc.robot.settings.Constants.OperatorConstants;
 import frc.robot.subsystems.ArmWristSubsystem;
 import frc.robot.subsystems.DrivetrainSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
+import frc.robot.utilities.AdaptiveTrajectoryGeneration;
+import frc.robot.utilities.AdaptiveTrajectoryGeneration.Bay;
+import frc.robot.utilities.AdaptiveTrajectoryGeneration.Position;
 
 import java.util.ArrayList;
 
@@ -24,6 +28,7 @@ import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
@@ -66,7 +71,6 @@ public class RobotContainer {
    * joysticks}.
    */
   private void configureBindings() {
-
   }
 
   /**
@@ -140,6 +144,11 @@ public class RobotContainer {
         crossScale,
         config);
     SmartDashboard.putData("Drive trajectory", (Sendable) m_drivetrainSubsystem.getDriveTrajectoryCommand(trajectory));
+
+
+    
+
+    SmartDashboard.putData("Follow Adaptive Path", (Sendable) new AdaptiveDriveCommand(m_drivetrainSubsystem, Bay.Center, Position.Cube));
 
   }
 

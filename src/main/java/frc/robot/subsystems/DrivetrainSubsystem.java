@@ -4,6 +4,9 @@
 
 package frc.robot.subsystems;
 
+import java.util.function.Function;
+import java.util.function.Supplier;
+
 import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -18,8 +21,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Constants.SwerveDriveConstants;
 import frc.robot.commands.DriveTrajectory;
+import frc.robot.settings.Constants.SwerveDriveConstants;
 
 public class DrivetrainSubsystem extends SubsystemBase {
 
@@ -88,7 +91,10 @@ public class DrivetrainSubsystem extends SubsystemBase {
   }
 
   public Pose2d getCurrentRobotPose() {
-    return new Pose2d();// m_poseEstimator.getEstimatedPosition();
+    return new Pose2d(SmartDashboard.getNumber("Robot Goal Position X", 0),
+        SmartDashboard.getNumber("Robot Goal Position Y", 0),
+        new Rotation2d(
+            SmartDashboard.getNumber("Robot Goal Position Theta", 0)));// m_poseEstimator.getEstimatedPosition();
   }
 
   public void setCurrentRobotPose(Pose2d pose) {
@@ -101,6 +107,10 @@ public class DrivetrainSubsystem extends SubsystemBase {
 
   public void stop() {
 
+  }
+
+  public Command getDriveTrajectoryCommand(Supplier<Trajectory> supplier) {
+    return getDriveTrajectoryCommand(supplier.get());
   }
 
   public Command getDriveTrajectoryCommand(Trajectory traj) {
@@ -118,9 +128,9 @@ public class DrivetrainSubsystem extends SubsystemBase {
   @Override
   public void simulationPeriodic() {
     Pose2d goalPose = new Pose2d(SmartDashboard.getNumber("Robot Goal Position X", 0),
-                                 SmartDashboard.getNumber("Robot Goal Position Y", 0),
-                                 new Rotation2d(
-                                    SmartDashboard.getNumber("Robot Goal Position X", 0)));
+        SmartDashboard.getNumber("Robot Goal Position Y", 0),
+        new Rotation2d(
+            SmartDashboard.getNumber("Robot Goal Position Theta", 0)));
     m_field.setRobotPose(goalPose);
   }
 }

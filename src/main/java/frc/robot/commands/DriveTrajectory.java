@@ -16,7 +16,7 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.SwerveControllerCommand;
-import frc.robot.Constants.SwerveDriveConstants;
+import frc.robot.settings.Constants.SwerveDriveConstants;
 import frc.robot.subsystems.DrivetrainSubsystem;
 
 /* Abstract class to drive trajectories with a swerve drive robot */
@@ -25,7 +25,7 @@ public class DriveTrajectory extends CommandBase {
     protected final Timer timer;
 
     private final HolonomicDriveController controller;
-    protected final Trajectory trajectory;
+    protected Trajectory trajectory;
 
     /** Creates a new DriveHolonomicTrajectory. */
     public DriveTrajectory(final DrivetrainSubsystem swerveSubsystem, Trajectory trajectory) {

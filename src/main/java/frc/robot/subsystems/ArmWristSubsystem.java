@@ -27,10 +27,10 @@ import edu.wpi.first.wpilibj.util.Color8Bit;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Constants.ArmWristConstants;
-import frc.robot.Constants.CanIds;
-import frc.robot.Constants.RobotSizeConstants;
 import frc.robot.WPILibExtensions.ExtendedSingleJointSimulation;
+import frc.robot.settings.Constants.ArmWristConstants;
+import frc.robot.settings.Constants.CanIds;
+import frc.robot.settings.Constants.RobotSizeConstants;
 
 public class ArmWristSubsystem extends SubsystemBase {
 
