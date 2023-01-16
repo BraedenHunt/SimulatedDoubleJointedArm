@@ -106,6 +106,7 @@ public class ArmWristSubsystem extends SubsystemBase {
 
     double wristVoltage = calculateWristFeedForwardVoltage() + wristPidVoltage;
     m_wristMotor.setVoltage(wristVoltage);
+
   }
 
   public double calculateArmFeedForwardVoltage() {
@@ -151,11 +152,13 @@ public class ArmWristSubsystem extends SubsystemBase {
   }
 
   public boolean armAtGoal() {
-    return m_armPidController.atGoal();
+    //return m_armPidController.atGoal();
+    return m_armPidController.getPositionTolerance() >= Math.abs(m_armEncoder.getDistance() - m_armPidController.getGoal().position);
   }
 
   public boolean wristAtGoal() {
-    return m_wristPidController.atGoal();
+    //return m_wristPidController.atGoal();
+    return m_wristPidController.getPositionTolerance() >= Math.abs(m_wristEncoder.getDistance() - m_wristPidController.getGoal().position);
   }
 
   public boolean armWristAtGoal() {
@@ -163,8 +166,8 @@ public class ArmWristSubsystem extends SubsystemBase {
   }
 
   public Command getGotoCommand(double armDegrees, double wristDegrees) {
-    return Commands.runOnce(() -> setArmWristGoal(armDegrees, wristDegrees), this)
-           .andThen(Commands.waitUntil(() -> armWristAtGoal()));
+    return Commands.runOnce(() -> setArmWristGoal(armDegrees, wristDegrees), this).andThen(Commands.print("Setting goal"))
+           .andThen(Commands.waitUntil(() -> armWristAtGoal())).andThen(Commands.print("Arm at goal"));
   }
   
   /* ---------------------- Simulation Code ---------------------- */
@@ -178,6 +181,7 @@ public class ArmWristSubsystem extends SubsystemBase {
   private MechanismLigament2d m_wristMechanism;
 
   public void simulationInit() {
+
     var armGearbox = DCMotor.getNEO(6);
     var wristGearbox = DCMotor.getNeo550(1);
 
@@ -274,9 +278,7 @@ public class ArmWristSubsystem extends SubsystemBase {
     m_wristSim.setInput(Math.max(Math.min(m_wristMotor.getAppliedOutput(), RobotController.getBatteryVoltage()), -RobotController.getBatteryVoltage()));
     // Next, we update it. The standard loop time is 20ms.
     
-    if (!brakeEnabled) {
-      m_armSim.update(0.020);
-    }
+    m_armSim.update(0.020);
     m_wristSim.update(0.020);
 
 

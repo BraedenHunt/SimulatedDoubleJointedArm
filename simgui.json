@@ -2,51 +2,18 @@
   "NTProvider": {
     "types": {
       "/FMSInfo": "FMSInfo",
-      "/LiveWindow/Ungrouped/PIDController[1]": "PIDController",
-      "/LiveWindow/Ungrouped/PIDController[2]": "PIDController",
-      "/LiveWindow/Ungrouped/Scheduler": "Scheduler",
       "/SmartDashboard/Arm Sim": "Mechanism2d",
-      "/SmartDashboard/Intake Position": "Command",
-      "/SmartDashboard/Place 1 Position": "Command",
-      "/SmartDashboard/Place 2 Position": "Command"
+      "/SmartDashboard/Drive trajectory": "Command",
+      "/SmartDashboard/Field": "Field2d",
+      "/SmartDashboard/Run Preset Command": "Command",
+      "/SmartDashboard/SendableChooser[0]": "String Chooser"
     },
     "windows": {
-      "/SmartDashboard/Arm Sim": {
-        "window": {
-          "visible": true
-        }
-      },
-      "/SmartDashboard/Intake Position": {
-        "window": {
-          "visible": true
-        }
-      },
-      "/SmartDashboard/Place 1 Position": {
-        "window": {
-          "visible": true
-        }
-      },
-      "/SmartDashboard/Place 2 Position": {
+      "/SmartDashboard/Field": {
         "window": {
           "visible": true
         }
       }
     }
-  },
-  "NetworkTables": {
-    "transitory": {
-      "SmartDashboard": {
-        "Arm Sim": {
-          "open": true
-        },
-        "Intake Position": {
-          "open": true
-        },
-        "open": true
-      }
-    }
-  },
-  "NetworkTables View": {
-    "visible": false
   }
 }

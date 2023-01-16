@@ -4,6 +4,8 @@
 
 package frc.robot;
 
+import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.util.Units;
 
 /**
@@ -27,6 +29,26 @@ public final class Constants {
 
   public static class RobotSizeConstants {
     public static final double kRobotLength = Units.inchesToMeters(28);
+    public static final double kRobotWidth = Units.inchesToMeters(24);
+    
+    public static final double kTrackWidth = Units.inchesToMeters(18.75);
+    public static final double kWheelBase = Units.inchesToMeters(22.75);
+
+  }
+
+  public static class SwerveDriveConstants {
+    public static final Translation2d kFrontLeftModuleLocation = new Translation2d(RobotSizeConstants.kWheelBase/2, RobotSizeConstants.kTrackWidth/2);
+    public static final Translation2d kBackLeftModuleLocation = new Translation2d(-RobotSizeConstants.kWheelBase/2, RobotSizeConstants.kTrackWidth/2);
+    public static final Translation2d kBackRightModuleLocation = new Translation2d(-RobotSizeConstants.kWheelBase/2, -RobotSizeConstants.kTrackWidth/2);
+    public static final Translation2d kFrontRightModuleLocation = new Translation2d(RobotSizeConstants.kWheelBase/2, -RobotSizeConstants.kTrackWidth/2);
+
+    public static final Translation2d[] kSwerveModuleLocations = new Translation2d[] {kFrontLeftModuleLocation, 
+                                                                                      kBackLeftModuleLocation, 
+                                                                                      kBackRightModuleLocation, 
+                                                                                      kFrontRightModuleLocation};
+    public static final SwerveModulePosition kFrontLeftModulePosition = new SwerveModulePosition(0, null);
+    
+    public static final double kMaxVelocity = 3;
   }
 
   public static class ArmWristConstants {
@@ -35,14 +57,14 @@ public final class Constants {
     public static final double kArmKp = 1;
     public static final double kArmKi = 0;
     public static final double kArmKd = 0;
-    public static final double kArmPositionTolerance = 1;
-    public static final double kArmVelocityTolerance = 5;
+    public static final double kArmPositionTolerance = 10;
+    public static final double kArmVelocityTolerance = 20;
 
     public static final double kWristKp = 0.75;
     public static final double kWristKi = 0;
     public static final double kWristKd = 0;
-    public static final double kWristPositionTolerance = 1;
-    public static final double kWristVelocityTolerance = 5;
+    public static final double kWristPositionTolerance = 10;
+    public static final double kWristVelocityTolerance = 20;
 
     /* ---------------------------------------------------------------------------- 
       Constraint Constants */
