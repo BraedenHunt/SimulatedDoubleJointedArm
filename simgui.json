@@ -5,14 +5,32 @@
       "/SmartDashboard/Arm Sim": "Mechanism2d",
       "/SmartDashboard/Drive trajectory": "Command",
       "/SmartDashboard/Field": "Field2d",
+      "/SmartDashboard/Follow Adaptive Path": "Command",
       "/SmartDashboard/Run Preset Command": "Command",
       "/SmartDashboard/SendableChooser[0]": "String Chooser"
     },
     "windows": {
-      "/SmartDashboard/Field": {
+      "/SmartDashboard/Run Preset Command": {
         "window": {
           "visible": true
         }
+      },
+      "/SmartDashboard/SendableChooser[0]": {
+        "window": {
+          "visible": true
+        }
+      }
+    }
+  },
+  "NetworkTables": {
+    "transitory": {
+      "AdvantageKit": {
+        "RealOutputs": {
+          "open": true
+        }
+      },
+      "SmartDashboard": {
+        "open": true
       }
     }
   }

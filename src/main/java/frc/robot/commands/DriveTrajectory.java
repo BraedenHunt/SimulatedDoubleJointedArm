@@ -10,13 +10,10 @@ import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.math.trajectory.Trajectory.State;
-import edu.wpi.first.util.sendable.Sendable;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import edu.wpi.first.wpilibj2.command.SwerveControllerCommand;
-import frc.robot.settings.Constants.SwerveDriveConstants;
 import frc.robot.subsystems.DrivetrainSubsystem;
 
 /* Abstract class to drive trajectories with a swerve drive robot */
@@ -35,13 +32,13 @@ public class DriveTrajectory extends CommandBase {
         this.timer = new Timer();
         controller = new HolonomicDriveController(
                 new PIDController(0, 0, 0), // x
-                                                                                                                       // controller
+                                            // controller
                 new PIDController(0, 0, 0), // y
-                                                                                                                       // controller
+                                            // controller
                 new ProfiledPIDController(0, 0, 0, // Theta
                         // controller
-                        new TrapezoidProfile.Constraints(180,180))); // Max angular
-                                                                                                      // acceleration
+                        new TrapezoidProfile.Constraints(180, 180))); // Max angular
+                                                                      // acceleration
         addRequirements(swerveSubsystem);
     }
 

@@ -4,25 +4,22 @@
 
 package frc.robot.subsystems;
 
-import java.util.function.Function;
 import java.util.function.Supplier;
+
+import org.littletonrobotics.junction.AutoLog;
+import org.littletonrobotics.junction.Logger;
 
 import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
-import edu.wpi.first.math.kinematics.SwerveModulePosition;
-import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.math.trajectory.Trajectory;
-import edu.wpi.first.wpilibj.interfaces.Gyro;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.commands.DriveTrajectory;
-import frc.robot.settings.Constants.SwerveDriveConstants;
 
 public class DrivetrainSubsystem extends SubsystemBase {
 
@@ -131,6 +128,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
         SmartDashboard.getNumber("Robot Goal Position Y", 0),
         new Rotation2d(
             SmartDashboard.getNumber("Robot Goal Position Theta", 0)));
+    Logger.getInstance().recordOutput("Robot Pose", goalPose);
     m_field.setRobotPose(goalPose);
   }
 }

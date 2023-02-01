@@ -4,14 +4,22 @@
 
 package frc.robot.subsystems;
 
+import org.littletonrobotics.junction.AutoLog;
+import org.littletonrobotics.junction.Logger;
+
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.math.VecBuilder;
 import edu.wpi.first.math.controller.ProfiledPIDController;
+import edu.wpi.first.math.geometry.Pose3d;
+import edu.wpi.first.math.geometry.Rotation3d;
+import edu.wpi.first.math.geometry.Transform3d;
+import edu.wpi.first.math.geometry.Translation3d;
 import edu.wpi.first.math.system.plant.DCMotor;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.util.sendable.Sendable;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.simulation.BatterySim;
@@ -51,7 +59,6 @@ public class ArmWristSubsystem extends SubsystemBase {
   public ArmWristSubsystem(boolean useBrakeAssist) {
 
     this.m_useBrakeAssist = useBrakeAssist;
-
     // The arm ProfiledPIDController
     m_armPidController = new ProfiledPIDController(
             ArmWristConstants.kArmKp,
@@ -280,7 +287,20 @@ public class ArmWristSubsystem extends SubsystemBase {
     
     m_armSim.update(0.020);
     m_wristSim.update(0.020);
+    //new Pose3d(-0.2778252, 0.02540, 0, new Rotation3d(0, m_armSim.getAngleRads(), 0))
+    Logger.getInstance().recordOutput("Arm Angle", 
+      new Pose3d( -0.3187446, 0, 0.136525, new Rotation3d(0, m_armSim.getAngleRads(), 0)));
 
+
+
+/*Logger.getInstance().recordOutput("Wrist Angle", 
+      new Pose3d( -0.3187446, -0.266827, 0.136525, new Rotation3d())
+      .transformBy(new Transform3d(new Translation3d(-1.3, new Rotation3d(0, m_armSim.getAngleRads(), 0)), new Rotation3d())));*/
+
+      Logger.getInstance().recordOutput("Wrist Angle", 
+      new Pose3d( -0.3187446, -0.266827, 0.136525, new Rotation3d())
+      .transformBy(new Transform3d(new Translation3d(-1.3, new Rotation3d(0, m_armSim.getAngleRads(), 0)), new Rotation3d()))
+      .plus(new Transform3d(new Translation3d(), new Rotation3d(0, m_wristSim.getAngleRads() + m_armSim.getAngleRads()+ Units.degreesToRadians(90), 0))));
 
     // Finally, we set our simulated encoder's readings and simulated battery voltage
     m_armEncoderSim.setDistance(Units.radiansToDegrees(m_armSim.getAngleRads()));

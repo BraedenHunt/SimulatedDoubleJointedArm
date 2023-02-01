@@ -100,8 +100,10 @@ public class RobotContainer {
         crossScale,
         config);
       
-      return m_armWristSubsystem.getGotoCommand(0, 180)  .andThen(
-  m_drivetrainSubsystem.getDriveTrajectoryCommand(trajectory)).andThen(m_armWristSubsystem.getGotoCommand(130, 0));
+      return (m_drivetrainSubsystem.getDriveTrajectoryCommand(trajectory))
+      .alongWith(Commands.waitSeconds(2)
+                  .andThen(m_armWristSubsystem.getGotoCommand(90, 180)))
+      .andThen(m_armWristSubsystem.getGotoCommand(0, 0));
 
   }
 
